@@ -1,0 +1,86 @@
+[
+  {
+    "text": "What is React?",
+    "img": "https://placehold.co/600x400/e7ecf7/b7c6e8",
+    "options": [
+      {
+        "text": "A JavaScript library for building user interfaces",
+        "isCorrect": true
+      },
+      { "text": "A CSS framework", "isCorrect": false },
+      { "text": "A database management system", "isCorrect": false },
+      { "text": "A web server", "isCorrect": false }
+    ],
+    "type": "single_choice"
+  },
+  {
+    "text": "Which of the following are correct about React components?",
+    "img": "https://placehold.co/600x400/e7ecf7/b7c6e8",
+    "options": [
+      {
+        "text": "Components can be class-based or function-based",
+        "isCorrect": true
+      },
+      {
+        "text": "Components must always be written in JavaScript",
+        "isCorrect": false
+      },
+      { "text": "Components can manage their own state", "isCorrect": true },
+      { "text": "Components cannot be reused", "isCorrect": false }
+    ],
+    "type": "multiple_choice"
+  },
+  {
+    "text": "What is the purpose of the useState hook in React?",
+    "options": [
+      {
+        "text": "To handle component state in functional components",
+        "isCorrect": true
+      },
+      {
+        "text": "To perform side effects in functional components",
+        "isCorrect": false
+      },
+      { "text": "To fetch data from an API", "isCorrect": false },
+      { "text": "To navigate between different routes", "isCorrect": false }
+    ],
+    "type": "single_choice"
+  },
+  {
+    "text": "What is JSX in React?",
+    "options": [
+      {
+        "text": "A syntax extension that allows mixing HTML with JavaScript",
+        "isCorrect": true
+      },
+      { "text": "A new JavaScript framework", "isCorrect": false },
+      { "text": "A styling language for React components", "isCorrect": false },
+      { "text": "A database query language", "isCorrect": false }
+    ],
+    "type": "single_choice"
+  },
+  {
+    "text": "How does the useEffect hook in React work?",
+    "options": [
+      {
+        "text": "It allows performing side effects in function components",
+        "isCorrect": true
+      },
+      {
+        "text": "It handles state management in class components",
+        "isCorrect": false
+      },
+      {
+        "text": "It is used to declare the UI structure of a component",
+        "isCorrect": false
+      },
+      { "text": "It replaces the useState hook", "isCorrect": false }
+    ],
+    "type": "single_choice"
+  },
+  {
+    "text": "How does the useEffect hook in React work?",
+    "img": "https://placehold.co/600x400/e7ecf7/b7c6e8",
+    "type": "text"
+  }
+]
