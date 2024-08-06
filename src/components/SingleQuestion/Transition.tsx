@@ -20,20 +20,20 @@ export const Transition = ({
     if (show) {
       const from =
         direction === "left"
-          ? { transform: "translateX(-100%)" }
-          : { transform: "translateX(100%)" };
-      const to = { transform: "translateX(0)" };
+          ? { transform: "translateX(-100%)", opacity: 0 }
+          : { transform: "translateX(100%)", opacity: 0};
+      const to = { transform: "translateX(0)", opacity: 1 };
 
       setRemove(false);
       if (!childElement) return;
       childElement.animate([from, to], { duration: 500, fill: "forwards" });
     } else {
       if (!childElement) return;
-      const from = { transform: "translateX(0)" };
+      const from = { transform: "translateX(0)", opacity: 1 };
       const to =
         direction === "left"
-          ? { transform: "translateX(100%)" }
-          : { transform: "translateX(-100%)" };
+          ? { transform: "translateX(100%)", opacity: 0 }
+          : { transform: "translateX(-100%)", opacity: 0 };
 
       const animation = childElement.animate([from, to], {
         duration: 500,
