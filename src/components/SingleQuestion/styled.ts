@@ -55,9 +55,12 @@ export const Title = styled(H2)`
 `;
 
 export const Img = styled.img`
-  width: 400px;
-  height: 300px;
+  width: 100%;
   object-fit: cover;
+  ${media.md`
+     width: 400px;
+     height: 300px;
+  `}
 `;
 
 export const slideInLeft = keyframes`

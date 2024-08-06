@@ -83,8 +83,12 @@ export const SingleQuestion = () => {
     <Layout>
       <QuestionContainer>
         <ProgressBar percentage={percentage} />
-        <Transition key={state.currentIndex} show={show} direction={direction}>
-          <Box>
+        <Box>
+          <Transition
+            key={state.currentIndex}
+            show={show}
+            direction={direction}
+          >
             <Title>{currentQuestion.text}</Title>
             <InnerContainer>
               <Show>
@@ -153,9 +157,8 @@ export const SingleQuestion = () => {
                 <Img src={currentQuestion.img} />
               </If>
             </InnerContainer>
-          </Box>
-        </Transition>
-
+          </Transition>
+        </Box>
         <ActionsContainer>
           <If condition={state.currentIndex > 0}>
             <Button variant="outlined" onClick={handlePrevious}>
