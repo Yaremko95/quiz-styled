@@ -82,18 +82,8 @@ export const slideInRight = keyframes`
   }
 `;
 
-export const SlideContainer = styled.div<{ direction: "left" | "right" }>`
-  animation: ${({ direction }) =>
-    direction === "left"
-      ? css`
-          ${slideInLeft} 0.5s forwards
-        `
-      : css`
-          ${slideInRight} 0.5s forwards
-        `};
-
+export const Box = styled.div`
   overflow: auto;
-
   padding: ${({ theme }) => theme.spacing(3)};
   margin-bottom: ${({ theme }) => theme.spacing(9)};
   ${media.lg`

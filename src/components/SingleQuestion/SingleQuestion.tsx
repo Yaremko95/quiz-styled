@@ -19,15 +19,16 @@ import {
   Layout,
   OptionsContainer,
   QuestionContainer,
-  SlideContainer,
+  Box,
   Title,
 } from "./styled";
+import { Transition } from "./Transition";
 
 export const SingleQuestion = () => {
   const questions = useLoaderData() as Question[];
   const [state, setState] = useRecoilState(QuizState);
   const [direction, setDirection] = useState<"left" | "right">("right");
-
+  const [show, setShow] = useState(true);
   const currentQuestion = questions[state.currentIndex];
 
   const [selectedOptions, setSelectedOptions] = useState<Answer>(null);
@@ -37,31 +38,38 @@ export const SingleQuestion = () => {
   }, [state.currentIndex, state.answers]);
 
   const handleAnswer = () => {
+    setShow(false);
     setDirection("right");
-    setState(
-      produce((draft) => {
-        if (selectedOptions) {
-          draft.answers[state.currentIndex] = selectedOptions;
-        }
-        if (state.currentIndex < questions.length - 1) {
-          draft.currentIndex += 1;
-        } else {
-          draft.status = "completed";
-        }
-      })
-    );
+    setTimeout(() => {
+      setState(
+        produce((draft) => {
+          if (selectedOptions) {
+            draft.answers[state.currentIndex] = selectedOptions;
+          }
+          if (state.currentIndex < questions.length - 1) {
+            draft.currentIndex += 1;
+          } else {
+            draft.status = "completed";
+          }
+        })
+      );
+      setShow(true);
+    }, 500);
   };
 
   const handlePrevious = () => {
+    setShow(false);
     setDirection("left");
-
-    if (state.currentIndex > 0) {
-      setState(
-        produce((draft) => {
-          draft.currentIndex -= 1;
-        })
-      );
-    }
+    setTimeout(() => {
+      if (state.currentIndex > 0) {
+        setState(
+          produce((draft) => {
+            draft.currentIndex -= 1;
+          })
+        );
+      }
+      setShow(true);
+    }, 500);
   };
 
   const percentage = useMemo(() => {
@@ -75,73 +83,78 @@ export const SingleQuestion = () => {
     <Layout>
       <QuestionContainer>
         <ProgressBar percentage={percentage} />
-        <SlideContainer key={state.currentIndex} direction={direction}>
-          <Title>{currentQuestion.text}</Title>
-          <InnerContainer>
-            <Show>
-              <When condition={currentQuestion.type !== "text"}>
-                <OptionsContainer>
-                  <Small>
-                    {currentQuestion.type === "single_choice"
-                      ? "Choose one"
-                      : "Choose multiple"}
-                  </Small>
-                  {currentQuestion.options?.map((option, i) => (
-                    <FormControlLabel
-                      key={i}
-                      checked={((selectedOptions as number[]) || []).includes(
-                        i
-                      )}
-                      control={
-                        <Show>
-                          <When
-                            condition={currentQuestion.type === "single_choice"}
-                          >
-                            <Radio
-                              checked={(
-                                (selectedOptions as number[]) || []
-                              ).includes(i)}
-                              onChange={() => setSelectedOptions([i])}
-                            />
-                          </When>
-                          <Otherwise>
-                            <CheckBox
-                              checked={(
-                                (selectedOptions as number[]) || []
-                              ).includes(i)}
-                              onChange={(e) => {
-                                const updatedOptions = e.target.checked
-                                  ? [
-                                      ...((selectedOptions as number[]) || []),
-                                      i,
-                                    ]
-                                  : (
-                                      (selectedOptions as number[]) || []
-                                    ).filter((id) => id !== i);
-                                setSelectedOptions(updatedOptions);
-                              }}
-                            />
-                          </Otherwise>
-                        </Show>
-                      }
-                      label={<Span>{option.text}</Span>}
-                    />
-                  ))}
-                </OptionsContainer>
-              </When>
-              <Otherwise>
-                <TextField
-                  value={(selectedOptions as string) || ""}
-                  placeholder="Type your answer here"
-                  onChange={(e) => setSelectedOptions(e.target.value)}
-                />
-              </Otherwise>
-            </Show>
-            <If condition={Boolean(currentQuestion.img)}>
-              <Img src={currentQuestion.img} />
-            </If>
-          </InnerContainer>
-        </SlideContainer>
+        <Transition key={state.currentIndex} show={show} direction={direction}>
+          <Box>
+            <Title>{currentQuestion.text}</Title>
+            <InnerContainer>
+              <Show>
+                <When condition={currentQuestion.type !== "text"}>
+                  <OptionsContainer>
+                    <Small>
+                      {currentQuestion.type === "single_choice"
+                        ? "Choose one"
+                        : "Choose multiple"}
+                    </Small>
+                    {currentQuestion.options?.map((option, i) => (
+                      <FormControlLabel
+                        key={i}
+                        checked={((selectedOptions as number[]) || []).includes(
+                          i
+                        )}
+                        control={
+                          <Show>
+                            <When
+                              condition={
+                                currentQuestion.type === "single_choice"
+                              }
+                            >
+                              <Radio
+                                checked={(
+                                  (selectedOptions as number[]) || []
+                                ).includes(i)}
+                                onChange={() => setSelectedOptions([i])}
+                              />
+                            </When>
+                            <Otherwise>
+                              <CheckBox
+                                checked={(
+                                  (selectedOptions as number[]) || []
+                                ).includes(i)}
+                                onChange={(e) => {
+                                  const updatedOptions = e.target.checked
+                                    ? [
+                                        ...((selectedOptions as number[]) ||
+                                          []),
+                                        i,
+                                      ]
+                                    : (
+                                        (selectedOptions as number[]) || []
+                                      ).filter((id) => id !== i);
+                                  setSelectedOptions(updatedOptions);
+                                }}
+                              />
+                            </Otherwise>
+                          </Show>
+                        }
+                        label={<Span>{option.text}</Span>}
+                      />
+                    ))}
+                  </OptionsContainer>
+                </When>
+                <Otherwise>
+                  <TextField
+                    value={(selectedOptions as string) || ""}
+                    placeholder="Type your answer here"
+                    onChange={(e) => setSelectedOptions(e.target.value)}
+                  />
+                </Otherwise>
+              </Show>
+              <If condition={Boolean(currentQuestion.img)}>
+                <Img src={currentQuestion.img} />
+              </If>
+            </InnerContainer>
+          </Box>
+        </Transition>
 
         <ActionsContainer>
           <If condition={state.currentIndex > 0}>
